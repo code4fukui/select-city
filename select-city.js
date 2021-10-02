@@ -39,7 +39,7 @@ class SelectCity extends HTMLElement {
         opt.textContent = city;
         sel2.appendChild(opt);
       }
-      this.inlgcode.value = await TownID.getLGCode(this.value);
+      this.inlgcode.value = await TownID.getLGCode(this.getPrefCity());
     };
 
     const sel2 = cr("select");
@@ -51,14 +51,18 @@ class SelectCity extends HTMLElement {
     sel2.appendChild(opt2);
 
     this.inlgcode = cr("input");
-    this.appendChild(this.inlgcode);
+    //this.appendChild(this.inlgcode);
 
     this.sel2.onchange = async () => {
-      this.inlgcode.value = await TownID.getLGCode(this.value);
+      this.inlgcode.value = await TownID.getLGCode(this.getPrefCity());
+      console.log("set", this.inlgcode.value);
     };
   }
-  get value() {
+  getPrefCity() {
     return (this.sel.selectedIndex == 0 ? null : this.sel.value) + (this.sel2.selectedIndex == 0 ? "" : this.sel2.value);
+  }
+  get value() {
+    return this.getPrefCity();
   }
   get lgcode() {
     return this.inlgcode.value;
@@ -74,16 +78,6 @@ class SelectCity extends HTMLElement {
   }
 }
 
-class InputLGCode extends SelectCity {
-  get value() {
-    return this.lgcode;
-  }
-  set value(code) {
-    this.lgcode = code;
-  }
-}
-
 customElements.define("select-city", SelectCity);
-customElements.define("input-lgcode", InputLGCode);
 
-export { SelectCity, InputLGCode };
+export { SelectCity };
