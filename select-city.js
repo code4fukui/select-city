@@ -39,7 +39,7 @@ class SelectCity extends HTMLElement {
         opt.textContent = city;
         sel2.appendChild(opt);
       }
-      this.inlgcode.value = "";
+      this.inlgcode.value = await TownID.getLGCode(this.value);
     };
 
     const sel2 = cr("select");
