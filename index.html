@@ -1,0 +1,29 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>select-city tag</title>
+<!--
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+-->
+</head>
+<body style="margin: 2em;">
+
+<h1>select-city tag</h1>
+<script type="module" src="./select-city.js"></script>
+
+<select-city id="city"></select-city><br>
+
+<p><input id="selected"></p>
+<p><button id="set">福井県鯖江市をセット</button></p>
+
+<script type="module">
+city.onchange = () => {
+  selected.value = city.value ? `${city.value}(${city.lgcode})が選択されました` : "都道府県を選択してください";
+};
+set.onclick = () => {
+  city.lgcode = "18207"; //  = "福井県鯖江市";
+};
+</script>
+
+<hr>
+<style>a { color: gray !important }</style>
+App: <a href=https://fukuno.jig.jp/>福野泰介の一日一創</a> (<a href=https://github.com/code4fukui/select-city>select-city tag - src on GitHub</a>)<br>
+</body>
