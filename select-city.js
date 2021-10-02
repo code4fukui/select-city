@@ -39,7 +39,7 @@ class SelectCity extends HTMLElement {
         opt.textContent = city;
         sel2.appendChild(opt);
       }
-      this._lgcode = null;
+      this.inlgcode.value = "";
     };
 
     const sel2 = cr("select");
@@ -50,28 +50,40 @@ class SelectCity extends HTMLElement {
     opt2.value = "";
     sel2.appendChild(opt2);
 
+    this.inlgcode = cr("input");
+    this.appendChild(this.inlgcode);
+
     this.sel2.onchange = async () => {
-      this._lgcode = await TownID.getLGCode(this.value);
+      this.inlgcode.value = await TownID.getLGCode(this.value);
     };
-    this._lgcode = null;
   }
   get value() {
     return (this.sel.selectedIndex == 0 ? null : this.sel.value) + (this.sel2.selectedIndex == 0 ? "" : this.sel2.value);
   }
   get lgcode() {
-    return this._lgcode;
+    return this.inlgcode.value;
   }
   set lgcode(code) {
     (async () => {
       const [pref, city] = await TownID.fromLGCode(code);
       this.sel.value = pref;
       await this.sel.onchange();
-      console.log(pref, city);
       this.sel2.value = city;
+      this.sel2.onchange();
     })();
   }
 }
 
-customElements.define("select-city", SelectCity);
+class InputLGCode extends SelectCity {
+  get value() {
+    return this.lgcode;
+  }
+  set value(code) {
+    this.lgcode = code;
+  }
+}
 
-export { SelectCity };
+customElements.define("select-city", SelectCity);
+customElements.define("input-lgcode", InputLGCode);
+
+export { SelectCity, InputLGCode };
