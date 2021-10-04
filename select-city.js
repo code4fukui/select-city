@@ -51,7 +51,8 @@ class SelectCity extends HTMLElement {
     sel2.appendChild(opt2);
 
     this.inlgcode = cr("input");
-    //this.appendChild(this.inlgcode);
+    this.inlgcode.disabled = "disabled";
+    this.appendChild(this.inlgcode);
 
     this.sel2.onchange = async () => {
       this.inlgcode.value = await TownID.getLGCode(this.getPrefCity());
