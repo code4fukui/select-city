@@ -1,17 +1,17 @@
 import { TownID } from "https://code4fukui.github.io/TownID/TownID.js";
 
 class SelectCity extends HTMLElement {
-  constructor() {
+  constructor(opts) {
     super();
-    this.init();
+    this.init(opts);
   }
-  async init() {
+  async init(opts) {
     const prefs = await TownID.getPrefs();
     const cr = (tag) => document.createElement(tag);
 
     const sel = cr("select");
     const opt = cr("option");
-    opt.textContent = "都道府県";
+    opt.textContent = this.getAttribute("defaultpref") || opts?.defaultpref || "都道府県";
     opt.value = "";
     sel.appendChild(opt);
     for (const pref of prefs) {
@@ -31,7 +31,7 @@ class SelectCity extends HTMLElement {
       const cities = await TownID.getCities(pref);
       this.sel2.innerHTML = "";
       const opt2 = cr("option");
-      opt2.textContent = "市区町村";
+      opt2.textContent = this.getAttribute("defaultcity") || opts?.defaultcity || "市区町村";
       opt2.value = "";
       sel2.appendChild(opt2);
       for (const city of cities) {
@@ -46,7 +46,7 @@ class SelectCity extends HTMLElement {
     this.appendChild(sel2);
     this.sel2 = sel2;
     const opt2 = cr("option");
-    opt2.textContent = "市区町村";
+    opt2.textContent = this.getAttribute("defaultcity") || "市区町村";
     opt2.value = "";
     sel2.appendChild(opt2);
 
