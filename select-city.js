@@ -82,7 +82,9 @@ class SelectCity extends HTMLElement {
           await this.sel.onchange();
           const city = v.substring(opt.textContent.length);
           this.sel2.value = city;
-          this.onchange();
+          if (this.onchange) {
+            this.onchange();
+          }
         }
       }
     })();
@@ -96,7 +98,9 @@ class SelectCity extends HTMLElement {
       this.sel.value = pref;
       await this.sel.onchange();
       this.sel2.value = city;
-      this.onchange();
+      if (this.onchange) {
+        this.onchange();
+      }
     })();
   }
 }
