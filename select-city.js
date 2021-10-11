@@ -65,7 +65,7 @@ class SelectCity extends HTMLElement {
     if (!this.sel || !this.sel2) {
       return "";
     }
-    return (this.sel.selectedIndex == 0 ? null : this.sel.value) + (this.sel2.selectedIndex == 0 ? "" : this.sel2.value);
+    return (this.sel.selectedIndex == 0 ? "" : this.sel.value) + (this.sel2.selectedIndex == 0 ? "" : this.sel2.value);
   }
   get value() {
     return this.getPrefCity();
