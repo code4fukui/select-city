@@ -56,14 +56,34 @@ class SelectCity extends HTMLElement {
 
     this.sel2.onchange = async () => {
       this.inlgcode.value = await TownID.getLGCode(this.getPrefCity());
-      console.log("set", this.inlgcode.value);
+      //console.log("set", this.inlgcode.value);
     };
   }
   getPrefCity() {
+    if (!this.sel || !this.sel2) {
+      return "";
+    }
     return (this.sel.selectedIndex == 0 ? null : this.sel.value) + (this.sel2.selectedIndex == 0 ? "" : this.sel2.value);
   }
   get value() {
     return this.getPrefCity();
+  }
+  set value(v) {
+    if (!this.sel || !this.sel2) {
+      return;
+    }
+    (async () => {
+      const opts = this.sel.querySelectorAll("option");
+      for (const opt of opts) {
+        if (v.startsWith(opt.textContent)) {
+          opt.selected = true;
+          await this.sel.onchange();
+          const city = v.substring(opt.textContent.length);
+          this.sel2.value = city;
+          this.onchange();
+        }
+      }
+    })();
   }
   get lgcode() {
     return this.inlgcode.value;
@@ -74,7 +94,7 @@ class SelectCity extends HTMLElement {
       this.sel.value = pref;
       await this.sel.onchange();
       this.sel2.value = city;
-      this.sel2.onchange();
+      this.onchange();
     })();
   }
 }

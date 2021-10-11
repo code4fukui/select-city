@@ -11,21 +11,23 @@
 
 <select-city id="city"></select-city><br>
 
-<p><input id="selected"></p>
+<p><input id="selected" style="width:70vw"></p>
 <p><button id="set">福井県鯖江市をセット</button></p>
 
 <script type="module">
-city.onchange = () => {
-  selected.value = city.value ? `${city.value}(${city.lgcode})が選択されました` : "都道府県を選択してください";
-};
-set.onclick = () => {
-  city.lgcode = "18207"; //  = "福井県鯖江市";
+onload = () => {
+  city.onchange = () => {
+    selected.value = city.value ? `${city.value}(${city.lgcode})が選択されました` : "都道府県を選択してください";
+  };
+  set.onclick = () => {
+    city.value = "福井県鯖江市";
+  };
 };
 </script>
 
 <hr>
 
-<select-city id="city" defaultpref="全国" defaultcity="全市区町村"></select-city><br>
+<select-city id="city2" defaultpref="全国" defaultcity="全市区町村"></select-city><br>
 
 
 <hr>
