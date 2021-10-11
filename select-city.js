@@ -46,7 +46,7 @@ class SelectCity extends HTMLElement {
     this.appendChild(sel2);
     this.sel2 = sel2;
     const opt2 = cr("option");
-    opt2.textContent = this.getAttribute("defaultcity") || "市区町村";
+    opt2.textContent = this.getAttribute("defaultcity") || opts?.defaultcity || "市区町村";
     opt2.value = "";
     sel2.appendChild(opt2);
 
