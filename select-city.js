@@ -94,7 +94,11 @@ class SelectCity extends HTMLElement {
   }
   set lgcode(code) {
     (async () => {
-      const [pref, city] = await TownID.fromLGCode(code);
+      const pc = await TownID.fromLGCode(code);
+      if (!pc) {
+        return;
+      }
+      const [pref, city] = pc;
       this.sel.value = pref;
       await this.sel.onchange();
       this.sel2.value = city;
