@@ -28,16 +28,18 @@ class SelectCity extends HTMLElement {
       }
       */
       const pref = this.sel.value;
-      const cities = await TownID.getCities(pref);
       this.sel2.innerHTML = "";
       const opt2 = cr("option");
       opt2.textContent = this.getAttribute("defaultcity") || opts?.defaultcity || "市区町村";
       opt2.value = "";
       sel2.appendChild(opt2);
-      for (const city of cities) {
-        const opt = cr("option");
-        opt.textContent = city;
-        sel2.appendChild(opt);
+      const cities = await TownID.getCities(pref);
+      if (cities) {
+        for (const city of cities) {
+          const opt = cr("option");
+          opt.textContent = city;
+          sel2.appendChild(opt);
+        }
       }
       this.inlgcode.value = await TownID.getLGCode(this.getPrefCity());
     };
