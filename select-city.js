@@ -40,6 +40,9 @@ class SelectCity extends HTMLElement {
           opt.textContent = city;
           sel2.appendChild(opt);
         }
+        sel2.disabled = false;
+      } else {
+        sel2.disabled = true;
       }
       this.inlgcode.value = await TownID.getLGCode(this.getPrefCity());
     };
@@ -51,9 +54,10 @@ class SelectCity extends HTMLElement {
     opt2.textContent = this.getAttribute("defaultcity") || opts?.defaultcity || "市区町村";
     opt2.value = "";
     sel2.appendChild(opt2);
+    sel2.disabled = true;
 
     this.inlgcode = cr("input");
-    this.inlgcode.disabled = "disabled";
+    this.inlgcode.disabled = true; // "disabled";
     //this.appendChild(this.inlgcode);
 
     this.sel2.onchange = async () => {
