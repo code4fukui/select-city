@@ -6,6 +6,8 @@ class SelectCity extends HTMLElement {
     this.init(opts);
   }
   async init(opts) {
+
+
     const prefs = await TownID.getPrefs();
     const cr = (tag) => document.createElement(tag);
 
@@ -44,8 +46,11 @@ class SelectCity extends HTMLElement {
       } else {
         sel2.disabled = true;
       }
+      this.sel.className = this.getAttribute("required") == "required" && sel2.disabled ? "required" : "";
       this.inlgcode.value = await TownID.getLGCode(this.getPrefCity());
     };
+    this.sel.className = this.getAttribute("required") == "required" ? "required" : "";//  && sel2.disabled ? "required" : "";
+    //console.log(this.getAttribute("required"), this.sel.className);
 
     const sel2 = cr("select");
     this.appendChild(sel2);
