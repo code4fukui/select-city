@@ -6,7 +6,13 @@ class SelectCity extends HTMLElement {
     this.init(opts);
   }
   async init(opts) {
-
+    if (opts) {
+      for (const name in opts) {
+        if (opts[name] != null) {
+          this.setAttribute(name, opts[name]);
+        }
+      }
+    }
 
     const prefs = await TownID.getPrefs();
     const cr = (tag) => document.createElement(tag);
