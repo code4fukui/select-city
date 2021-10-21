@@ -55,7 +55,7 @@ class SelectCity extends HTMLElement {
         sel2.disabled = true;
       }
       this.sel.className = this.getAttribute("required") == "required" && sel2.disabled ? "required" : "";
-      this.inlgcode.value = await TownID.getLGCode(this.getPrefCity());
+      this.inlgcode.value = LGCode.normalize(await TownID.getLGCode(this.getPrefCity()));
     };
     this.sel.className = this.getAttribute("required") == "required" ? "required" : "";//  && sel2.disabled ? "required" : "";
     //console.log(this.getAttribute("required"), this.sel.className);
@@ -74,7 +74,7 @@ class SelectCity extends HTMLElement {
     //this.appendChild(this.inlgcode);
 
     this.sel2.onchange = async () => {
-      this.inlgcode.value = await TownID.getLGCode(this.getPrefCity());
+      this.inlgcode.value = LGCode.normalize(await TownID.getLGCode(this.getPrefCity()));
       //console.log("set", this.inlgcode.value);
     };
   }
@@ -107,7 +107,7 @@ class SelectCity extends HTMLElement {
     })();
   }
   get lgcode() {
-    return LGCode.normalize(this.inlgcode.value);
+    return this.inlgcode.value;
   }
   set lgcode(code) {
     (async () => {
