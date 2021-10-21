@@ -1,5 +1,7 @@
 import { TownID } from "https://code4fukui.github.io/TownID/TownID.js";
+import { LGCode } from "https://code4fukui.github.io/LGCode/LGCode.js";
 
+// todo remove TownID
 class SelectCity extends HTMLElement {
   constructor(opts) {
     super();
@@ -105,11 +107,11 @@ class SelectCity extends HTMLElement {
     })();
   }
   get lgcode() {
-    return this.inlgcode.value;
+    return LGCode.normalize(this.inlgcode.value);
   }
   set lgcode(code) {
     (async () => {
-      const pc = await TownID.fromLGCode(code);
+      const pc = await TownID.fromLGCode(LGCode.parse(code));
       if (!pc) {
         return;
       }
