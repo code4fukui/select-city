@@ -12,7 +12,13 @@
 <select-city id="city"></select-city><br>
 
 <p><input id="selected" style="width:70vw"></p>
+
+
+<select-city id="city2" required=required defaultpref="全国" defaultcity="全市区町村"></select-city><br>
+
 <p><button id="set">福井県鯖江市をセット</button></p>
+
+<hr>
 
 <script type="module">
 onload = () => {
@@ -21,13 +27,10 @@ onload = () => {
   };
   set.onclick = () => {
     city.value = "福井県鯖江市";
+    city2.lgcode = "182079";
   };
 };
 </script>
-
-<hr>
-
-<select-city id="city2" required=required defaultpref="全国" defaultcity="全市区町村"></select-city><br>
 
 <style>
 .required {
@@ -35,7 +38,6 @@ onload = () => {
 }
 </style>
 
-<hr>
 <style>a { color: gray !important }</style>
 App: <a href=https://fukuno.jig.jp/>福野泰介の一日一創</a> (<a href=https://github.com/code4fukui/select-city>select-city tag - src on GitHub</a>)<br>
 </body>
