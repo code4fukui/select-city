@@ -111,6 +111,9 @@ class SelectCity extends HTMLElement {
   }
   set lgcode(code) {
     code = LGCode.parse(code);
+    if (!code) {
+      return;
+    }
     (async () => {
       const pc = await TownID.fromLGCode(code);
       //console.log(pc, code);
