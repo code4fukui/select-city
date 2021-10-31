@@ -29,8 +29,8 @@ onload = () => {
   };
   set1.onclick = () => {
     city.value = "福井県鯖江市";
-    //city2.lgcode = "182079";
-    city2.lgcode = 18207; // 5桁でもok!
+    city2.lgcode = "182079";
+    //city2.lgcode = "18207"; // 5桁はNG
   };
   set2.onclick = () => {
     city.value = "東京都新宿区";
@@ -41,8 +41,9 @@ onload = () => {
     city2.lgcode = "184811";
   };
   set4.onclick = () => {
-    city.value = "北海道函館市";
-    city2.lgcode = "12025";
+    city.value = "北海道士別市";
+    city2.lgcode = "012203";
+    // city2.lgcode = "12203"; // 5桁はNG、千葉県銚子市のチェックデジットなしとかぶる（他、重複12件）
   };
 };
 </script>
