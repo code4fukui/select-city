@@ -13,10 +13,12 @@
 
 <p><input id="selected" style="width:70vw"></p>
 
-
 <select-city id="city2" required=required defaultpref="全国" defaultcity="全市区町村"></select-city><br>
 
-<p><button id="set">福井県鯖江市をセット</button></p>
+<p><button id="set1">福井県鯖江市をセット</button></p>
+<p><button id="set2">東京都新宿区をセット</button></p>
+<p><button id="set3">福井県高浜町をセット</button></p>
+<p><button id="set4">北海道函館市をセット</button></p>
 
 <hr>
 
@@ -25,9 +27,22 @@ onload = () => {
   city.onchange = () => {
     selected.value = city.value ? `${city.value}(${city.lgcode})が選択されました` : "都道府県を選択してください";
   };
-  set.onclick = () => {
+  set1.onclick = () => {
     city.value = "福井県鯖江市";
-    city2.lgcode = "182079";
+    //city2.lgcode = "182079";
+    city2.lgcode = 18207; // 5桁でもok!
+  };
+  set2.onclick = () => {
+    city.value = "東京都新宿区";
+    city2.lgcode = "131041";
+  };
+  set3.onclick = () => {
+    city.value = "福井県高浜町";
+    city2.lgcode = "184811";
+  };
+  set4.onclick = () => {
+    city.value = "北海道函館市";
+    city2.lgcode = "12025";
   };
 };
 </script>

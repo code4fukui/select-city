@@ -1,13 +1,11 @@
-import { TownID } from "https://code4fukui.github.io/TownID/TownID.js";
 import { LGCode } from "https://code4fukui.github.io/LGCode/LGCode.js";
 
-// todo remove TownID
 class SelectCity extends HTMLElement {
   constructor(opts) {
     super();
     this.init(opts);
   }
-  async init(opts) {
+  init(opts) {
     if (opts) {
       for (const name in opts) {
         if (opts[name] != null) {
@@ -16,7 +14,7 @@ class SelectCity extends HTMLElement {
       }
     }
 
-    const prefs = await TownID.getPrefs();
+    const prefs = LGCode.getPrefs();
     const cr = (tag) => document.createElement(tag);
 
     const sel = cr("select");
@@ -31,7 +29,7 @@ class SelectCity extends HTMLElement {
     }
     this.appendChild(sel);
     this.sel = sel;
-    this.sel.onchange = async () => {
+    this.sel.onchange = (e) => {
       /*
       if (this.onchange) {
         this.onchange();
@@ -43,7 +41,7 @@ class SelectCity extends HTMLElement {
       opt2.textContent = this.getAttribute("defaultcity") || opts?.defaultcity || "市区町村";
       opt2.value = "";
       sel2.appendChild(opt2);
-      const cities = await TownID.getCities(pref);
+      const cities = LGCode.getCities(pref);
       if (cities) {
         for (const city of cities) {
           const opt = cr("option");
@@ -55,7 +53,17 @@ class SelectCity extends HTMLElement {
         sel2.disabled = true;
       }
       this.sel.className = this.getAttribute("required") == "required" && sel2.disabled ? "required" : "";
-      this.inlgcode.value = LGCode.normalize(await TownID.getLGCode(this.getPrefCity()));
+      const value = this.getPrefCity();
+      const lgcode = LGCode.encode(value);
+      this.inlgcode.value = lgcode;
+
+      if (e) {
+        this.setAttribute("lgcode", lgcode);
+        this.setAttribute("value", value);
+        if (this.onchange) {
+          this.onchange();
+        }
+      }
     };
     this.sel.className = this.getAttribute("required") == "required" ? "required" : "";//  && sel2.disabled ? "required" : "";
     //console.log(this.getAttribute("required"), this.sel.className);
@@ -74,8 +82,16 @@ class SelectCity extends HTMLElement {
     //this.appendChild(this.inlgcode);
 
     this.sel2.onchange = async () => {
-      this.inlgcode.value = LGCode.normalize(await TownID.getLGCode(this.getPrefCity()));
+      const value = this.getPrefCity();
+      const lgcode = LGCode.encode(value);
       //console.log("set", this.inlgcode.value);
+      this.inlgcode.value = lgcode;
+
+      this.setAttribute("lgcode", lgcode);
+      this.setAttribute("value", value);
+      if (this.onchange) {
+        this.onchange();
+      }
     };
   }
   getPrefCity() {
@@ -85,49 +101,68 @@ class SelectCity extends HTMLElement {
     return (this.sel.selectedIndex == 0 ? "" : this.sel.value) + (this.sel2.selectedIndex == 0 ? "" : this.sel2.value);
   }
   get value() {
-    return this.getPrefCity();
+    return this.getAttribute("value");
+    //return this.getPrefCity();
   }
   set value(v) {
+    if (Array.isArray(v)) {
+      v = v.join("");
+    }
+    this.setAttribute("value", v);
+    const lgcode = LGCode.encode(v);
+    this.setAttribute("lgcode", lgcode);
+
     if (!this.sel || !this.sel2) {
       return;
     }
-    (async () => {
-      const opts = this.sel.querySelectorAll("option");
-      for (const opt of opts) {
-        if (v.startsWith(opt.textContent)) {
-          opt.selected = true;
-          await this.sel.onchange();
-          const city = v.substring(opt.textContent.length);
-          this.sel2.value = city;
-          if (this.onchange) {
-            this.onchange();
-          }
+    const opts = this.sel.querySelectorAll("option");
+    for (const opt of opts) {
+      if (v.startsWith(opt.textContent)) {
+        opt.selected = true;
+        this.sel.onchange();
+        const city = v.substring(opt.textContent.length);
+        this.sel2.value = city;
+        if (this.onchange) {
+          this.onchange();
         }
       }
-    })();
+    }
   }
   get lgcode() {
+    return this.getAttribute("lgcode");
+    /*
+    if (!this.inlgcode) {
+      return "";
+    }
     return this.inlgcode.value;
+    */
   }
   set lgcode(code) {
-    code = LGCode.parse(code);
+    const v = LGCode.decode(code);
+    if (!v) {
+      return;
+    }
+    this.value = v.filter(v => !v.endsWith("郡") && v != "特別区部");
+    /*
+    code = LGCode.normalize(code);
+
     if (!code) {
       return;
     }
-    (async () => {
-      const pc = await TownID.fromLGCode(code);
-      //console.log(pc, code);
-      if (!pc) {
-        return;
-      }
-      const [pref, city] = pc;
-      this.sel.value = pref;
-      await this.sel.onchange();
-      this.sel2.value = city;
-      if (this.onchange) {
-        this.onchange();
-      }
-    })();
+    this.setAttribute("lgcode", code);
+    const pc = LGCode.decode(code);
+    console.log(pc, code);
+    if (!pc) {
+      return;
+    }
+    const [pref, city] = pc;
+    this.sel.value = pref;
+    this.sel.onchange();
+    this.sel2.value = city;
+    if (this.onchange) {
+      this.onchange();
+    }
+    */
   }
 }
 
