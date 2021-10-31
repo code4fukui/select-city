@@ -104,7 +104,7 @@ class SelectCity extends HTMLElement {
     return this.getAttribute("value");
     //return this.getPrefCity();
   }
-  set value(v) {
+  _setValue(v) {
     if (Array.isArray(v)) {
       v = v.join("");
     }
@@ -128,6 +128,9 @@ class SelectCity extends HTMLElement {
       }
     }
   }
+  set value(v) {
+    this._setValue(v);
+  }
   get lgcode() {
     return this.getAttribute("lgcode");
     /*
@@ -142,7 +145,7 @@ class SelectCity extends HTMLElement {
     if (!v) {
       return;
     }
-    this.value = v.filter(v => !v.endsWith("郡") && v != "特別区部");
+    this._setValue(v.filter(v => !v.endsWith("郡") && v != "特別区部" && !v.endsWith("振興局")));
     /*
     code = LGCode.normalize(code);
 
