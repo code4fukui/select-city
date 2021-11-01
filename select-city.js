@@ -53,13 +53,11 @@ class SelectCity extends HTMLElement {
         sel2.disabled = true;
       }
       this.sel.className = this.getAttribute("required") == "required" && sel2.disabled ? "required" : "";
-      const value = this.getPrefCity();
-      const lgcode = LGCode.encode(value);
-      this.inlgcode.value = lgcode;
 
       if (e) {
-        this.setAttribute("lgcode", lgcode);
-        this.setAttribute("value", value);
+        const value = this.getPrefCity();
+        const lgcode = LGCode.encode(value);
+        this.inlgcode.value = lgcode;
         if (this.onchange) {
           this.onchange();
         }
@@ -87,8 +85,6 @@ class SelectCity extends HTMLElement {
       //console.log("set", this.inlgcode.value);
       this.inlgcode.value = lgcode;
 
-      this.setAttribute("lgcode", lgcode);
-      this.setAttribute("value", value);
       if (this.onchange) {
         this.onchange();
       }
@@ -101,20 +97,15 @@ class SelectCity extends HTMLElement {
     return (this.sel.selectedIndex == 0 ? "" : this.sel.value) + (this.sel2.selectedIndex == 0 ? "" : this.sel2.value);
   }
   get value() {
-    return this.getAttribute("value");
-    //return this.getPrefCity();
+    return this.getPrefCity();
   }
   _setValue(v) {
     if (Array.isArray(v)) {
       v = v.join("");
     }
-    this.setAttribute("value", v);
     const lgcode = LGCode.encode(v);
-    this.setAttribute("lgcode", lgcode);
+    this.inlgcode.value = lgcode;
 
-    if (!this.sel || !this.sel2) {
-      return;
-    }
     const opts = this.sel.querySelectorAll("option");
     for (const opt of opts) {
       if (v.startsWith(opt.textContent)) {
@@ -132,13 +123,7 @@ class SelectCity extends HTMLElement {
     this._setValue(v);
   }
   get lgcode() {
-    return this.getAttribute("lgcode");
-    /*
-    if (!this.inlgcode) {
-      return "";
-    }
     return this.inlgcode.value;
-    */
   }
   set lgcode(code) {
     const v = LGCode.decode(code);
