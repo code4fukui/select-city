@@ -41,7 +41,7 @@ class SelectCity extends HTMLElement {
       opt2.textContent = this.getAttribute("defaultcity") || opts?.defaultcity || "市区町村";
       opt2.value = "";
       sel2.appendChild(opt2);
-      const cities = LGCode.getCities(pref);
+      const cities = pref ? LGCode.getCities(pref) : null;
       if (cities) {
         for (const city of cities) {
           const opt = cr("option");
