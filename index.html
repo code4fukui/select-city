@@ -48,6 +48,19 @@ onload = () => {
 };
 </script>
 
+<hr>
+<script type="module" src="./select-ward.js"></script>
+<h2>select-word</h2>
+<p><input id="selected2" style="width:70vw"></p>
+
+<select-ward id="ward"></select-ward><br>
+<script type="module">
+ward.onchange = () => {
+  selected2.value = ward.value ? `${ward.value}(${ward.lgcode})が選択されました` : "都道府県を選択してください";
+};
+</script>
+
+
 <style>
 .required {
   background-color: #fdd;
