@@ -51,12 +51,25 @@ onload = () => {
 <hr>
 <script type="module" src="./select-ward.js"></script>
 <h2>select-word</h2>
+<button id=sel2_1>埼玉県さいたま市西区</button><br>
+<button id=sel2_2>福井県福井市</button><br>
+<button id=sel2_3>東京都</button><br>
 <p><input id="selected2" style="width:70vw"></p>
+
 
 <select-ward id="ward"></select-ward><br>
 <script type="module">
 ward.onchange = () => {
   selected2.value = ward.value ? `${ward.value}(${ward.lgcode})が選択されました` : "都道府県を選択してください";
+};
+sel2_1.onclick = () => {
+  ward.value = sel2_1.textContent;
+};
+sel2_2.onclick = () => {
+  ward.value = sel2_2.textContent;
+};
+sel2_3.onclick = () => {
+  ward.value = sel2_3.textContent;
 };
 </script>
 

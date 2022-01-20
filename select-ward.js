@@ -149,18 +149,23 @@ class SelectWard extends HTMLElement {
     }
     const lgcode = LGCode.encode(v);
     this.inlgcode.value = lgcode;
+    const dec = LGCode.decode(lgcode);
+    const pref = dec[0];
+    const city = dec[1];
+    const ward = dec[2];
 
-    const opts = this.sel.querySelectorAll("option");
-    for (const opt of opts) {
-      if (v.startsWith(opt.textContent)) {
-        opt.selected = true;
-        this.sel.onchange();
-        const city = v.substring(opt.textContent.length);
-        this.sel2.value = city;
-        if (this.onchange) {
-          this.onchange();
-        }
+    this.sel.value = pref;
+    this.sel.onchange();
+    if (city) {
+      this.sel2.value = city;
+      this.sel2.onchange();
+      if (ward) {
+          this.sel3.value = ward;
       }
+    }
+
+    if (this.onchange) {
+      this.onchange();
     }
   }
   set value(v) {
